@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Harmony.Domain;
 
 namespace Harmony.ProjectGeneration;
 
@@ -11,6 +13,7 @@ public class PackageFileParser
 {
     internal class PackageLockFile
     {
+        [JsonPropertyName("dependencies")]
         public Dictionary<string, PackageLockDependency> Dependencies { get; set; }
     }
 
@@ -23,10 +26,15 @@ public class PackageFileParser
         public string? Url { get; set; }
     }
 
-    public async Task<PackageDependencyFile> Parse(string path)
+    public async Task<PackageDependencies> Parse(string path)
     {
-        using var stream = File.OpenRead(path);
-        var packageLockFile = await JsonSerializer.DeserializeAsync<PackageLockFile>(stream);
+        using FileStream stream = File.OpenRead(path);
+
+        JsonSerializerOptions options = new()
+        {
+            PropertyNameCaseInsensitive = true,
+        };
+        PackageLockFile? packageLockFile = await JsonSerializer.DeserializeAsync<PackageLockFile>(stream, options);
 
         if (packageLockFile is null)
         {
@@ -34,7 +42,7 @@ public class PackageFileParser
         }
 
         // Convert the PackageLockFile to a PackageDependencyFile
-        var dependencies = packageLockFile.Dependencies.Select(d => new PackageDependency
+        List<PackageDependency> dependencies = packageLockFile.Dependencies.Select(d => new PackageDependency
         {
             Name = d.Key,
             Version = d.Value.Version,
@@ -44,21 +52,21 @@ public class PackageFileParser
             Url = d.Value.Url,
         }).ToList();
 
-        return new PackageDependencyFile
+        return new PackageDependencies
         {
-            Dependencies = dependencies,
+            RegistryDependencies = dependencies,
         };
     }
 
     private static List<PackageDependency> GetDependencies(Dictionary<string, PackageLockDependency> dependecyStore, Dictionary<string, string> dependencies)
     {
         // Get the dependency keys
-        var dependencyKeys = dependencies.Keys;
+        Dictionary<string, string>.KeyCollection dependencyKeys = dependencies.Keys;
 
         // Get the dependencies from the dependency store
         return dependencyKeys.Select(key =>
             {
-                var depency = dependecyStore[key];
+                PackageLockDependency depency = dependecyStore[key];
                 return new PackageDependency
                 {
                     Name = key,
