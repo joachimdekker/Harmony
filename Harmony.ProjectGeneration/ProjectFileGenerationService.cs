@@ -47,6 +47,13 @@ public class ProjectFileGenerationService
             hintPath.Value = expandedPath;
         }
 
+        // If the assembly is not user-made, don't display warnings
+        if (!assemblyDefinition.IsUserAssembly)
+        {
+            XElement warningLevelElement = projectFile.Descendants("WarningLevel").First();
+            warningLevelElement.Value = "0";
+        }
+
         // Replace whether unsafe blocks are allowed
         XElement unsafeBlocksElement = projectFile.Descendants("AllowUnsafeBlocks").First();
         unsafeBlocksElement.Value = assemblyDefinition.AllowUnsafeCode.ToString().ToLower();
