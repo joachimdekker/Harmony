@@ -125,11 +125,16 @@ public class ProjectFileGenerationService
 
 
         // Specify which folders to exclude
-        XElement excludeItemGroup = new("ItemGroup", new XAttribute("Label", "FilesCompile"));
-        string excludedFiles = string.Join(';', assemblyDefinition.ExcludedFolders.Select(x => x + "/**/*.cs"));
-        excludeItemGroup.Add(new XElement("Compile", new XAttribute("Include", "**/*.cs"), new XAttribute("Exclude", excludedFiles)));
+        if (assemblyDefinition.ExcludedFolders.Count > 0)
+        {
+            XElement excludeItemGroup = new("ItemGroup", new XAttribute("Label", "FilesCompile"));
+            string excludedFiles = string.Join(';', assemblyDefinition.ExcludedFolders.Select(x => x + "/**/*.cs"));
+            //excludeItemGroup.Add(new XElement("Compile", new XAttribute("Include", "**/*.cs"), new XAttribute("Exclude", excludedFiles)));
 
-        projectFile.Add(excludeItemGroup);
+            excludeItemGroup.Add(new XElement("Compile", new XAttribute("Remove", excludedFiles)));
+
+            projectFile.Add(excludeItemGroup);
+        }
 
         // Save the project file
         projectFile.Save(projectFileLocation);
