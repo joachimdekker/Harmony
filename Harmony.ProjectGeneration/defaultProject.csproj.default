@@ -11,6 +11,7 @@
     <WarningLevel>4</WarningLevel>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup Label="Analyzers">
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
