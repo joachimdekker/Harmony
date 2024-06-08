@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harmony.CLI", "Harmony.CLI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harmony.ProjectGeneration", "Harmony.ProjectGeneration\Harmony.ProjectGeneration.csproj", "{8483924F-A194-4073-B254-42B6EF649A37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harmony.Domain", "Harmony.Domain\Harmony.Domain.csproj", "{2C876DEF-399A-498E-9362-DCD5A91FADD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{8483924F-A194-4073-B254-42B6EF649A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8483924F-A194-4073-B254-42B6EF649A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8483924F-A194-4073-B254-42B6EF649A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C876DEF-399A-498E-9362-DCD5A91FADD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C876DEF-399A-498E-9362-DCD5A91FADD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C876DEF-399A-498E-9362-DCD5A91FADD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C876DEF-399A-498E-9362-DCD5A91FADD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
